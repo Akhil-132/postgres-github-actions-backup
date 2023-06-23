@@ -23,11 +23,11 @@ jobs:
 
       - name: Database Backup
         env:
-          DB_HOST: containers-us-west-120.railway.app
+          DB_HOST: host
           DB_USER: postgres
-          DB_NAME: railway
+          DB_NAME: dbname
           DB_PORT: 6917
-          DB_PASS: C8AGs2EGyBOkdjlRp89Z
+          DB_PASS: password
         run: |
           TIMESTAMP=$(TZ=America/Sao_Paulo date +"%H:%M")
           
