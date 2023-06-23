@@ -1,0 +1,56 @@
+name: Database Backup
+
+on:
+  schedule:
+    - cron: '1 * * * *' 
+  push:
+    branches:
+      - master
+
+permissions: write-all
+
+jobs:
+
+  backup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get install postgresql-client -y
+
+      - name: Database Backup
+        env:
+          DB_HOST: containers-us-west-155.railway.app
+          DB_USER: postgres
+          DB_NAME: railway
+          DB_PORT: 5644
+          DB_PASS: C5NlemdaiocOBZ5asqH3
+        run: |
+          TIMESTAMP=$(TZ=America/Sao_Paulo date +"%H:%M")
+          
+          c_y=$(TZ=America/Sao_Paulo date +%Y)
+          c_m=$(TZ=America/Sao_Paulo date +%m)
+          c_d=$(TZ=America/Sao_Paulo date +%d)
+          
+          folder_year_month="backups-$c_y-$c_m"
+
+          mkdir "$folder_year_month" || true
+          cd "$folder_year_month" || true
+          mkdir "$c_d" || true
+          cd "$c_d" || true
+
+          PGPASSWORD=$DB_PASS pg_dump -h $DB_HOST -U $DB_USER -d $DB_NAME -p $DB_PORT -f $TIMESTAMP.sql
+
+      - name: Commit changes
+        run: |
+          TIMESTAMP=$(TZ=America/Sao_Paulo date +"%H:%M")
+          pwd
+          ls
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add *
+          git commit -m "Auto backup at $TIMESTAMP" || true
+          git push origin master
