@@ -2,7 +2,7 @@ name: Database Backup
 
 on:
   schedule:
-    - cron: '1 * * * *'
+    - cron: ' * * * *'
   push:
     branches:
       - master
