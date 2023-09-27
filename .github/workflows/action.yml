@@ -18,16 +18,16 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
 
-      - name: Install PostgreSQL client
-        run: sudo apt-get install postgresql-client -y
+      #- name: Install PostgreSQL client
+        #run: sudo apt-get install postgresql-client -y
 
       - name: Database Backup
         env:
-          DB_HOST: host
-          DB_USER: postgres
-          DB_NAME: dbname
-          DB_PORT: 6917
-          DB_PASS: password
+          DB_HOST: localhost
+          DB_USER: odoo
+          DB_NAME: odoo
+          DB_PORT: 5432
+          DB_PASS: Akhil.reddy@1
         run: |
           TIMESTAMP=$(TZ=America/Sao_Paulo date +"%H:%M")
           
