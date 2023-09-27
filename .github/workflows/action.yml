@@ -18,12 +18,18 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
 
-      #- name: Install PostgreSQL client
-        #run: sudo apt-get install postgresql-client -y
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+
+          #- name: Install PostgreSQL client
+          #run: sudo apt-get install postgresql-client -y
 
       - name: Database Backup
         env:
-          DB_HOST: localhost
+          DB_HOST: %
           DB_USER: odoo
           DB_NAME: odoo
           DB_PORT: 5432
